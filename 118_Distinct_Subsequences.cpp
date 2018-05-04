@@ -64,3 +64,29 @@ public:
         return dp[m-1][(n-1)%2];
     }
 };
+
+//🐟大神的优化，都一样，都是滚动数组，不过它这个牛逼的地方在于加了一个空取空为1，这个辅助的数省去了一个多余的判断
+class Solution {
+public:
+    /*
+     * @param : A string
+     * @param : A string
+     * @return: Count the number of distinct subsequences
+     */
+    int numDistinct(string S, string T) {
+        // write your code here
+        int m = S.size();
+        int n = T.size();
+        int dp[n+1]={0};
+        dp[0] = 1;
+        for(auto it = S.begin();it!=S.end();it++){
+            for(int j = n-1;j>=0;j--){
+                if((*it) == T[j]){
+                    dp[j+1]+=dp[j];
+                }
+            }
+        }
+        return dp[n];
+        
+    }
+};
