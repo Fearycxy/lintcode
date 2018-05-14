@@ -10,7 +10,7 @@ public:
         // write your code here
         long long ans = 1, tmp = a;
         while (n != 0) {
-            if (n % 2 == 1) {
+            if (n & 1 == 1) {
                 ans = (ans * tmp) % b;
             }
             tmp = (tmp * tmp) % b;
