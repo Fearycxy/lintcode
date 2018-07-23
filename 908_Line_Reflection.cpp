@@ -14,7 +14,7 @@ public:
         int xm = xa + xi, i = 1, j = points.size() - 2;
         sort(points.begin(), points.end(), [&xm](vector<int> &v1, vector<int> &v2) {
             if (v1[0] == v2[0]) {
-                if (v1[0] > xm) return v1[1] > v2[1];
+                if (2* v1[0] > xm) return v1[1] > v2[1];
                 else return v1[1] < v2[1];
             }
             return v1[0] < v2[0];
@@ -22,7 +22,8 @@ public:
         while (i <= j) {
             if (points[i][0] + points[j][0] != xm)return false;
             if (points[i][1] != points[j][1]) return false;
-            i++;j--;
+            i++;
+            j--;
         }
         return true;
     }
