@@ -1,3 +1,48 @@
+//第二重做版，果然，第一遍的代码还是丑呀
+class Solution {
+public:
+    /**
+     * @param grid: Given a 2D grid, each cell is either 'W', 'E' or '0'
+     * @return: an integer, the maximum enemies you can kill using one bomb
+     */
+    int maxKilledEnemies(vector<vector<char>> &grid) {
+        if(grid.empty()) return 0;
+        int m = grid.size(),n = grid[0].size(),an = 0;
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        for(int i = 0;i<m;i++){
+            int j = 0 ,last = 0;
+            while(j<n){
+                int cur = 0;
+                while(j<n && grid[i][j] != 'W'){
+                    if(grid[i][j++] == 'E')cur++;
+                }
+                for(;last<j;last++){
+                    dp[i][last] = cur;
+                }
+                last = ++j;
+            }
+        }
+        for(int i = 0;i<n;i++){
+            int j = 0 ,last = 0;
+            while(j<m){
+                int cur = 0;
+                while(j<m && grid[j][i] != 'W'){
+                    if(grid[j++][i] == 'E')cur++;
+                }
+                for(;last<j;last++){
+                    if(grid[last][i] == 'E') continue;
+                    int g= grid[last][i] == 'E' ? -1 : 0;
+                    an = max(an, dp[last][i] + cur+g);
+                }
+                last = ++j;
+            }
+        }
+        return an;
+    }
+};
+
+
+//version 1
 class Solution {
 public:
     /**

@@ -1,3 +1,34 @@
+//第二次重做，发现原来的自己的做法是真的蠢
+class Solution {
+public:
+    /**
+     * @param numbers: Give an array numbers of n integer
+     * @return: Find all unique triplets in the array which gives the sum of zero.
+     */
+  vector<vector<int>> threeSum(vector<int> &numbers) {
+    // write your code here
+    int n = numbers.size();
+    vector<vector<int>> re;
+    sort(numbers.begin(),numbers.end());
+    for(int i = 0;i< n-2;i++){
+        if(i && numbers[i]==numbers[i-1]) continue;
+        int left = i+1,right = n-1;
+        while(left<right){
+            while(left<right && numbers[left]+numbers[right]+numbers[i]>0)right--;
+            while(left<right && numbers[left]+numbers[right]+numbers[i]<0)left++;
+            if(left<right && numbers[left]+numbers[right]+numbers[i] == 0){
+                re.push_back({numbers[i],numbers[left],numbers[right]});
+                int l = numbers[left],r = numbers[right];
+                while(left<right && numbers[left]==l)left++;
+                while(left<right && numbers[right]==r)right--;
+            }
+        }
+    }
+    return re;
+  }
+};
+
+//第一次的代码
 class Solution {
 public:
     /**
