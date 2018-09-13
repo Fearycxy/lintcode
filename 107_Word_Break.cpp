@@ -1,3 +1,23 @@
+//second version
+class Solution {
+public:
+    bool wordBreak(string s, unordered_set<string> &dict) {
+        int n = s.size();
+        bool dp[n+1] = {true};
+        dp[0] = true;
+        for (int i = 0; i < n ; ++i) {
+            for(auto &p:dict){
+                if(p.size() <= i+1 && dp[i+1-p.size()] && p==s.substr(i-p.size()+1,p.size())){
+                    dp[i+1] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+};
+
+//first version
 class Solution {
 public:
     /*
