@@ -1,3 +1,33 @@
+//第二编重做版
+class Solution {
+public:
+    /**
+     * @param nums: an integer array
+     * @param k: An integer
+     * @return: the top k largest numbers in array
+     */
+    vector<int> topk(vector<int> &nums, int k) {
+        int left = 0, right = nums.size();
+        while(right != k){
+            int begin = left,end = right, pivot = nums[begin];
+            while(begin < end){
+                while(begin < end && nums[--end] <= pivot);
+                nums[begin] = nums[end];
+                while(begin < end && nums[++begin] >= pivot);
+                nums[end] = nums[begin];
+            }
+            nums[begin] = pivot;
+            if(begin == k) break;
+            else if(begin < k)left = begin+1;
+            else right = begin;
+        }
+        sort(nums.begin(),nums.begin()+k,greater<int>());
+        return vector<int>(nums.begin(),nums.begin()+k);
+    }
+};
+
+
+//first version
 class Solution {
 public:
     /**

@@ -54,3 +54,51 @@ public:
         return lh->next;
     }
 };
+
+//version2
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        if(!head || !head->next) return head;
+        if(isDuplicate(head)) return head;
+        ListNode* cur = head->next;
+        ListNode* small = new ListNode(0);
+        ListNode* large = new ListNode(0);
+        ListNode* sp = small;
+        ListNode* lp = large;
+        while(cur){
+            if(cur->val<head->val){
+                sp->next = cur;
+                sp = cur;
+            }
+            else{
+                lp->next = cur;
+                lp = cur;
+            }
+            cur = cur->next;
+        }
+        sp->next = NULL;
+        lp->next = NULL;
+        small=sortList(small->next);
+        large=sortList(large->next);
+        cur = small;
+        if(cur){
+            while(cur->next) cur = cur->next;
+            cur->next = head;
+            head->next = large;
+            return small;
+        }else{
+            head->next = large;
+            return head;
+        }
+    }
+    bool isDuplicate(ListNode* head) {
+        while (head) {
+            if (head->next && head->next->val < head->val) {
+                return false;
+            }            
+            head = head->next;
+        }
+        return true;
+    }
+};

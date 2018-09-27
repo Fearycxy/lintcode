@@ -1,0 +1,35 @@
+//FLoyd-Warshall version
+class Solution {
+public:
+    vector<double> calcEquation(vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries) {
+        unordered_map<string,int> mp;
+        int n = equations.size(),f=1;
+        for(auto &y :equations){
+            if(!mp[y.first]) mp[y.first] = f++;
+            if(!mp[y.second]) mp[y.second] = f++;
+        }
+        const int m = mp.size(), LIMIT = 99999999;
+        vector<vector<double>> vec(m,vector<double>(m,LIMIT));
+        for(int i=0;i<n;i++){
+            int a = mp[equations[i].first];
+            int b = mp[equations[i].second];
+            vec[a-1][b-1] = values[i];
+            vec[b-1][a-1] = 1.0/values[i];
+        }
+        for(int k=0;k<m;k++){
+            for(int i =0;i<m;i++){
+                for(int j=0;j<m;j++){
+                    if(abs(vec[i][k] - LIMIT)<0.01 || abs(vec[k][j] - LIMIT) <0.01) continue;
+                    vec[i][j] = min(vec[i][j],vec[i][k]*vec[k][j]);
+                }
+            }
+        }
+        vector<double> re;
+        for(auto & q:queries){
+            int a = mp[q.first];
+            int b = mp[q.second];
+            re.push_back(!a || !b || abs(vec[a-1][b-1] -LIMIT)<0.01 ?-1:vec[a-1][b-1]);
+        }
+        return re;
+    }
+};

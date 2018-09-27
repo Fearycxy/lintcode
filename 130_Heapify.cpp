@@ -1,3 +1,24 @@
+//第二遍重做版
+class Solution {
+public:
+    /*
+     * @param A: Given an integer array
+     * @return: nothing
+     */
+    void heapify(vector<int> &A) {
+        // write your code here
+         // write your code here
+        for(int i =1;i<A.size();i++){
+            int cur = i;
+            while(cur && A[(cur-1)/2] > A[cur]){
+                swap(A[(cur-1)/2],A[cur]);
+                cur = (cur-1)/2;
+            }
+        }
+    }
+};
+
+//version1
 class Solution {
 public:
     /*
@@ -23,3 +44,5 @@ public:
         }
     }
 };
+
+

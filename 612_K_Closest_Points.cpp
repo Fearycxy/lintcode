@@ -1,3 +1,55 @@
+//第二遍重做版
+const double eps = 0.001;
+Point o;
+class Solution {
+public:
+    /**
+     * @param points: a list of points
+     * @param origin: a point
+     * @param k: An integer
+     * @return: the k closest points
+     */
+    vector<Point> kClosest(vector<Point> &points, Point &origin, int k) {
+        // write your code here
+        o = origin;
+        int left = 0, right = points.size();
+        while (left != k) {
+            int mid = partion(points, left, right);
+            if (mid == k) break;
+            else if (mid < k) left = mid + 1;
+            else right = mid;
+        }
+        sort(points.begin(), points.begin() + k, less);
+        return vector<Point>(points.begin(), points.begin() + k);
+    }
+
+private:
+    static bool less(Point &p1, Point &p2){
+        if(abs(getDistance(p1)-getDistance(p2))<eps){
+            if(p1.x == p2.x) return p1.y<p2.y;
+            return p1.x < p2.x;
+        }
+        return getDistance(p1)<getDistance(p2);
+    }
+
+    static double getDistance(Point &p) {
+        return sqrt(pow(p.x - o.x, 2) + pow(p.y - o.y, 2));
+    }
+
+    int partion(vector<Point> &points, int begin, int end) {
+        auto pivot = points[begin];
+        while (begin < end) {
+            while (begin < end && less(pivot,points[--end]));
+            points[begin] = points[end];
+            while (begin < end &&less(points[++begin], pivot));
+            points[end] = points[begin];
+        }
+        points[begin] = pivot;
+        return begin;
+    }
+};
+
+//first version
 /**
  * Definition for a point.
  * struct Point {
